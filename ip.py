@@ -29,7 +29,9 @@ class CheckIP:
         arp_resq = srp(arp_req, timeout=2, verbose=0)[0]
         # 遍历所有收到的ARP响应，存储IP和MAC地址的映射
         for arp in arp_resq:
-            self.ip_mac_map.append([arp[1].psrc])
+            ip_addr = arp[1].psrc
+            if ip_addr not in [entry[0] for entry in self.ip_mac_map]:
+                self.ip_mac_map.append([ip_addr])
         return self.ip_mac_map
 
     def check_ip(self, ip):
